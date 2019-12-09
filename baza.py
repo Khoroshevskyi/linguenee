@@ -19,8 +19,8 @@ def open_dict(file_name):
 
     true_arr_list = tru_arr_creator(diction_arr )
 
-    #for k in true_arr_list:
-        #print(k)
+    for k in true_arr_list:
+        print(k)
 
 def tru_arr_creator(diction_arr):
     # creating true array of words
@@ -32,7 +32,7 @@ def tru_arr_creator(diction_arr):
         while k < len(diction_arr[list_item_nr]["sense_0"]):
             translit_arr.append(sense0_modifier(diction_arr[list_item_nr]["sense_0"][k]))
             k = k + 1
-        print("b")
+        #print("b")
 
         for item in diction_arr[list_item_nr]["id_word"]:
             if len(item) > len("<pos>"):
@@ -68,9 +68,49 @@ def array_modifier(true_arr_list, key, item_front_del, item_back_del ):
     return(true_arr_list)
 
 def sense0_modifier(sense_list):
+    translate = {
+                "pos": "",
+                "translation": [],
+                "english_m": {
+                                "eng": "",
+                                "translation": []
+                }
+    }
     #print(sense_list)
-    print("")
-    return(sense_list)
+    word0 = '<note type="idarex" xml:lang="en">'
+    word0_back = '</note>'
+    word1 = "<quote>"
+    word1_back = "</quote>"
+    word2 = '<pos>'
+    word2_back = '</pos>'
+
+    item = 0
+    while (item < len(sense_list)):
+        if (len(sense_list[item]) > len(word0)):
+            if (sense_list[item][0:len(word0)] == word0):
+                translate["english_m"]["eng"] = word_modifier(sense_list[item], word0, word0_back)
+
+                while (item < len(sense_list)):
+                    if (len(sense_list[item]) > len(word1)):
+                        if (sense_list[item][0:len(word1)] == word1):
+                            translate["english_m"]["translation"].append(word_modifier(sense_list[item], word1, word1_back))
+                    item = item +1
+                break
+        if (len(sense_list[item]) > len(word1)):
+            if (sense_list[item][0:len(word1)] == word1):
+                translate["translation"].append(word_modifier(sense_list[item], word1, word1_back))
+
+        if (len(sense_list[item]) > len(word2)):
+            if (sense_list[item][0:len(word2)] == word2):
+                translate["pos"] = (word_modifier(sense_list[item], word2, word2_back))
+        item = item +1
+
+    return(translate)
+
+def word_modifier(word, item_front_del, item_back_del ):
+    word = word[len(item_front_del):]
+    word = word[:-len(item_back_del)]
+    return word
 
 # if there is meaning in id_slowo put this meaning to sense_0 first item
 def ref_in_id_to_sense0(diction_arr):
