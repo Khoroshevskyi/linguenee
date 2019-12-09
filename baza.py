@@ -14,19 +14,26 @@ def open_dict(file_name):
     diction_arr = dict_creator(dict_list)
     diction_arr = ref_in_id_to_sense0(diction_arr)
 
-    for k in diction_arr:
-        print(k)
+    #for k in diction_arr:
+        #print(k)
 
     true_arr_list = tru_arr_creator(diction_arr )
 
     #for k in true_arr_list:
-    #    print(k)
+        #print(k)
 
 def tru_arr_creator(diction_arr):
     # creating true array of words
     list_item_nr = 0
     true_arr_list = []
     while (list_item_nr < len(diction_arr)):
+        translit_arr = []
+        k = 0
+        while k < len(diction_arr[list_item_nr]["sense_0"]):
+            translit_arr.append(sense0_modifier(diction_arr[list_item_nr]["sense_0"][k]))
+            k = k + 1
+        print("b")
+
         for item in diction_arr[list_item_nr]["id_word"]:
             if len(item) > len("<pos>"):
                 if (item[0:len("<pos>")] == "<pos>"):
@@ -38,7 +45,8 @@ def tru_arr_creator(diction_arr):
         "id":  diction_arr[list_item_nr]["id_word"][0],
         "word": diction_arr[list_item_nr]["id_word"][2],
         "pron": diction_arr[list_item_nr]["id_word"][3],
-        "pos": pos
+        "pos": pos,
+        "translit": translit_arr
         }
         list_item_nr = list_item_nr + 1
         true_arr_list.append(true_arr)
@@ -58,6 +66,11 @@ def array_modifier(true_arr_list, key, item_front_del, item_back_del ):
             true_arr_list[item_nr][key] = true_arr_list[item_nr][key][:-len(item_back_del)]
         item_nr = item_nr + 1
     return(true_arr_list)
+
+def sense0_modifier(sense_list):
+    #print(sense_list)
+    print("")
+    return(sense_list)
 
 # if there is meaning in id_slowo put this meaning to sense_0 first item
 def ref_in_id_to_sense0(diction_arr):
