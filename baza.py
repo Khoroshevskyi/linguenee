@@ -19,8 +19,27 @@ def open_dict(file_name):
 
     true_arr_list = tru_arr_creator(diction_arr )
 
-    for k in true_arr_list:
-        print(k)
+    #for k in true_arr_list:
+    #    print(k)
+
+    #word_find = input("which word you want to find? : ")
+    #print("KK")
+    #print(next(item for item in true_arr_list if item["word"] == word_find))
+    #input()
+    while True:
+        try:
+            word_find=input("Type the word you want to find? ")
+            try:
+                slowo = next(item for item in true_arr_list if item["word"] == word_find)
+                for xx in slowo["translit"]:
+                    for x in (xx["translation"]):
+                        print(x)
+                print('')
+            except:
+                print("there is no word")
+        except EOFError:
+            break
+
 
 def tru_arr_creator(diction_arr):
     # creating true array of words
@@ -55,6 +74,12 @@ def tru_arr_creator(diction_arr):
     true_arr_list = array_modifier(true_arr_list, "pron", '<pron>', '</pron>' )
     true_arr_list = array_modifier(true_arr_list, "pos", '<pos>', '</pos>' )
 
+    k = 0
+    while (k < len(true_arr_list)):
+        if (true_arr_list[k]["pos"] != ''):
+            true_arr_list[k]["translit"][0]["pos"] = true_arr_list[k]["pos"]
+        del true_arr_list[k]["pos"]
+        k = k + 1
     return(true_arr_list)
 
 # deleting all unneccery char elements
