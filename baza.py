@@ -3,26 +3,21 @@ import numpy as np
 import os
 
 
-def open_dict(file_name):
+def main(directory, w_file_name):
     all_arrays = []
-    for filename in os.listdir("E://Przyrod-master//1//1.1-pracownia inform//git//all_words"):
-        true_arr_list1 = xml_to_list_dict("E://Przyrod-master//1//1.1-pracownia inform//git//all_words//"+filename)
+    for filename in os.listdir(directory):
+        true_arr_list1 = xml_to_list_dict(directory+"//"+filename)
         all_arrays = np.concatenate((all_arrays, true_arr_list1), axis=0)
-    #all_arrays.append(true_arr_list1[:])
-    #all_arrays.append(true_arr_list2[:])
 
-
-    #for k in all_arrays:
-        #print(k)
-    #write_to_file(true_arr_list, 'dictionary.txt')
+    write_to_file(all_arrays, w_file_name)
     #meaning_list = read_finished_file('dictionary.txt')
     #for k in meaning_list:
-        #print(k)
+    #    print(k)
+    #find_word(meaning_list)
 
-    find_word(all_arrays)
-
+# making list of dictionaries for words on one letter
 def xml_to_list_dict(filename):
-    data = open(filename,"r")
+    data = open(filename, "r")
     contents = data.read()
     contents = contents.replace("   ", "")
     list_of_words = contents.split("\n")
@@ -39,16 +34,18 @@ def xml_to_list_dict(filename):
     true_arr_list = tru_arr_creator(diction_arr)
     return(true_arr_list)
 
+# write words to file
 def write_to_file(list, filename):
     with open(filename, 'w') as filehandle:
         for listitem in list:
             k = filehandle.write('%s\n' % listitem)
     print('file', filename, 'with', k,'lines has been created' )
 
+# read created file
 def read_finished_file(filename):
     words = []
     # open file and read the content in a list
-    with open('listfile.txt', 'r') as filehandle:
+    with open(filename, 'r') as filehandle:
         for line in filehandle:
             # remove linebreak which is the last character of the string
             currentPlace = line[:-1]
@@ -56,6 +53,7 @@ def read_finished_file(filename):
 
     return(words)
 
+# find word
 def find_word(true_arr_list):
     while True:
         try:
@@ -71,9 +69,8 @@ def find_word(true_arr_list):
         except EOFError:
             break
 
-
+# main array of dicts creator
 def tru_arr_creator(diction_arr):
-    # creating true array of words
     list_item_nr = 0
     true_arr_list = []
     while (list_item_nr < len(diction_arr)):
@@ -108,6 +105,7 @@ def tru_arr_creator(diction_arr):
         k = k + 1
     return(true_arr_list)
 
+# word meaning creator, making all together
 def sense0_modifier(sense_list):
     translate = {
                     "pos": "",
@@ -117,9 +115,8 @@ def sense0_modifier(sense_list):
                                 "idarex": "",
                                 "translation": []
                                 },
-
                 }
-    #print(sense_list)
+
     ref = '<ref>'
     ref_back = '</ref>'
 
@@ -159,7 +156,6 @@ def sense0_modifier(sense_list):
             if (sense_list[item][0:len(ref)] == ref):
                 translate["translation"].append(word_modifier(sense_list[item], ref, ref_back))
 
-
         if (len(sense_list[item]) > len(word0)):
             if (sense_list[item][0:len(word0)] == word0):
                 translate["english_m"]["eng"] = word_modifier(sense_list[item], word0, word0_back)
@@ -177,6 +173,7 @@ def sense0_modifier(sense_list):
 
     return(translate)
 
+# deleting xml poznachky
 def word_modifier(word, item_front_del, item_back_del ):
     word = word[len(item_front_del):]
     word = word[:-len(item_back_del)]
@@ -205,7 +202,8 @@ def dict_creator(dict_list):
         diction_arr.append(diction)
     return diction_arr
 
-# separating words to few arrays by word
+# separating words to few arrays by delimiter (delim)
+# this function we use to separate words and meanings
 def make_word_list(list, delim):
     dict_list = []
     list_number = 0
@@ -231,5 +229,6 @@ def delete_not_word(dict_list):
                 break
     return(dict_list)
 
+# initializing main function
 if __name__ == '__main__':
-    open_dict("E://Przyrod-master//1//1.1-pracownia inform//a.xml")
+    main("E://Przyrod-master//1//1.1-pracownia inform//git//all_words", 'dictionary.txt')
