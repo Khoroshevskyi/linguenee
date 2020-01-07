@@ -3,13 +3,17 @@ import numpy as np
 import os
 
 
-def main(directory, w_file_name):
+def main(folder, w_file_name):
     all_arrays = []
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    directory = dir_path + "\\"+ folder
+    print(dir_path)
     for filename in os.listdir(directory):
         true_arr_list1 = xml_to_list_dict(directory+"//"+filename)
         all_arrays = np.concatenate((all_arrays, true_arr_list1), axis=0)
 
-    write_to_file(all_arrays, w_file_name)
+    f_name = dir_path+"\\"+w_file_name
+    write_to_file(all_arrays, f_name)
     #meaning_list = read_finished_file('dictionary.txt')
     #for k in meaning_list:
     #    print(k)
@@ -36,7 +40,7 @@ def xml_to_list_dict(filename):
 
 # write words to file
 def write_to_file(list, filename):
-    with open(filename, 'w') as filehandle:
+    with open(filename, 'w+') as filehandle:
         for listitem in list:
             k = filehandle.write('%s\n' % listitem)
     print('file', filename, 'with', k,'lines has been created' )
@@ -231,4 +235,4 @@ def delete_not_word(dict_list):
 
 # initializing main function
 if __name__ == '__main__':
-    main("E://Przyrod-master//1//1.1-pracownia inform//git//all_words", 'dictionary.txt')
+    main("all_words", 'dictionary.txt')
