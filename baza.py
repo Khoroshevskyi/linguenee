@@ -1,7 +1,5 @@
-import ast
 import numpy as np
 import os
-
 
 def main(folder, w_file_name):
     all_arrays = []
@@ -14,14 +12,13 @@ def main(folder, w_file_name):
 
     f_name = dir_path+"\\"+w_file_name
     write_to_file(all_arrays, f_name)
-    #meaning_list = read_finished_file('dictionary.txt')
-    #for k in meaning_list:
+
+    #for k in all_arrays:
     #    print(k)
-    #find_word(meaning_list)
 
 # making list of dictionaries for words on one letter
 def xml_to_list_dict(filename):
-    data = open(filename, "r")
+    data = open(filename, "r", encoding="utf8")
     contents = data.read()
     contents = contents.replace("   ", "")
     list_of_words = contents.split("\n")
@@ -40,38 +37,10 @@ def xml_to_list_dict(filename):
 
 # write words to file
 def write_to_file(list, filename):
-    with open(filename, 'w+') as filehandle:
+    with open(filename, 'w+', encoding="utf8") as filehandle:
         for listitem in list:
             k = filehandle.write('%s\n' % listitem)
     print('file', filename, 'with', k,'lines has been created' )
-
-# read created file
-def read_finished_file(filename):
-    words = []
-    # open file and read the content in a list
-    with open(filename, 'r') as filehandle:
-        for line in filehandle:
-            # remove linebreak which is the last character of the string
-            currentPlace = line[:-1]
-            words.append(ast.literal_eval(currentPlace))
-
-    return(words)
-
-# find word
-def find_word(true_arr_list):
-    while True:
-        try:
-            word_find=input("Type the word you want to find? ")
-            try:
-                slowo = next(item for item in true_arr_list if item["word"] == word_find)
-                for xx in slowo["translit"]:
-                    for x in (xx["translation"]):
-                        print(x)
-                print(slowo)
-            except:
-                print("There is no word")
-        except EOFError:
-            break
 
 # main array of dicts creator
 def tru_arr_creator(diction_arr):
@@ -235,4 +204,4 @@ def delete_not_word(dict_list):
 
 # initializing main function
 if __name__ == '__main__':
-    main("all_words", 'dictionary.txt')
+    main("all_words", 'dictionary1.txt')
