@@ -37,9 +37,11 @@ def xml_to_list_dict(filename):
 
 # write words to file
 def write_to_file(list, filename):
+    k = 0
     with open(filename, 'w+', encoding="utf8") as filehandle:
         for listitem in list:
-            k = filehandle.write('%s\n' % listitem)
+            filehandle.write('%s\n' % listitem)
+            k += 1
     print('file', filename, 'with', k,'lines has been created' )
 
 # main array of dicts creator
@@ -204,4 +206,4 @@ def delete_not_word(dict_list):
 
 # initializing main function
 if __name__ == '__main__':
-    main("all_words", 'dictionary1.txt')
+    main("all_words", 'dictionary.txt')
