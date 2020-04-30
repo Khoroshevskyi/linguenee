@@ -11,7 +11,7 @@ class Ui_RegisterWindow(object):
     def setupUi(self, RegisterWindow):
         self.RegisterWindow = RegisterWindow
         self.RegisterWindow.setObjectName("RegisterWindow")
-        self.RegisterWindow.resize(374, 460)
+        self.RegisterWindow.resize(374, 470)
         self.centralwidget = QtWidgets.QWidget(self.RegisterWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.MainLayout = QtWidgets.QGridLayout(self.centralwidget)
@@ -71,10 +71,18 @@ class Ui_RegisterWindow(object):
         self.surnameEdit.setObjectName("surnameEdit")
         self.inputAreaGrid.addWidget(self.surnameEdit, 1, 1, 1, 1)
 
+        self.emailLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        self.emailLabel.setObjectName("emailLabel")
+        self.inputAreaGrid.addWidget(self.emailLabel, 2, 0, 1, 1)
+
+        self.emailEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
+        self.emailEdit.setObjectName("emailEdit")
+        self.inputAreaGrid.addWidget(self.emailEdit, 2, 1, 1, 1)
+
         # age
         self.ageLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.ageLabel.setObjectName("ageLabel")
-        self.inputAreaGrid.addWidget(self.ageLabel, 3, 0, 1, 1)
+        self.inputAreaGrid.addWidget(self.ageLabel, 4, 0, 1, 1)
 
         self.date_of_birth = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.date_of_birth.setObjectName("date")
@@ -84,53 +92,53 @@ class Ui_RegisterWindow(object):
         self.date_of_birth.setDisplayFormat("dd-MM-yyyy")
         self.date_of_birth.setCalendarPopup(True)
 
-        self.inputAreaGrid.addWidget(self.date_of_birth, 3, 1, 1, 1)
+        self.inputAreaGrid.addWidget(self.date_of_birth, 4, 1, 1, 1)
 
         # sex
         self.sexLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.sexLabel.setObjectName("sexLabel")
-        self.inputAreaGrid.addWidget(self.sexLabel, 2, 0, 1, 1)
+        self.inputAreaGrid.addWidget(self.sexLabel, 3, 0, 1, 1)
 
         self.sexBox = QtWidgets.QComboBox(self.scrollAreaWidgetContents)
         self.sexBox.setObjectName("sexBox")
         self.sexBox.addItem("")
         self.sexBox.addItem("")
-        self.inputAreaGrid.addWidget(self.sexBox, 2, 1, 1, 1)
+        self.inputAreaGrid.addWidget(self.sexBox, 3, 1, 1, 1)
 
         # login
         self.loginLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.loginLabel.setObjectName("loginLabel")
-        self.inputAreaGrid.addWidget(self.loginLabel, 4, 0, 1, 1)
+        self.inputAreaGrid.addWidget(self.loginLabel, 5, 0, 1, 1)
 
         self.loginEdit = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.loginEdit.setObjectName("loginEdit")
-        self.inputAreaGrid.addWidget(self.loginEdit, 4, 1, 1, 1)
+        self.inputAreaGrid.addWidget(self.loginEdit, 5, 1, 1, 1)
 
         # password 1
         self.passwordLabel = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.passwordLabel.setObjectName("passwordLabel")
-        self.inputAreaGrid.addWidget(self.passwordLabel, 5, 0, 1, 1)
+        self.inputAreaGrid.addWidget(self.passwordLabel, 6, 0, 1, 1)
 
         self.passwordEdit1 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.passwordEdit1.setEchoMode(QtWidgets.QLineEdit.Password)
         self.passwordEdit1.setObjectName("passwordEdit1")
-        self.inputAreaGrid.addWidget(self.passwordEdit1, 5, 1, 1, 1)
+        self.inputAreaGrid.addWidget(self.passwordEdit1, 6, 1, 1, 1)
 
         # password 2
         self.passwordLabel2 = QtWidgets.QLabel(self.scrollAreaWidgetContents)
         self.passwordLabel2.setObjectName("passwordLabel2")
-        self.inputAreaGrid.addWidget(self.passwordLabel2, 6, 0, 1, 1)
+        self.inputAreaGrid.addWidget(self.passwordLabel2, 7, 0, 1, 1)
 
         self.passwordEdit2 = QtWidgets.QLineEdit(self.scrollAreaWidgetContents)
         self.passwordEdit2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.passwordEdit2.setObjectName("passwordEdit2")
-        self.inputAreaGrid.addWidget(self.passwordEdit2, 6, 1, 1, 1)
+        self.inputAreaGrid.addWidget(self.passwordEdit2, 7, 1, 1, 1)
 
         # rules check
         self.rulesBox = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
         self.rulesBox.setMouseTracking(True)
         self.rulesBox.setObjectName("rulesBox")
-        self.inputAreaGrid.addWidget(self.rulesBox, 7, 0, 1, 1)
+        self.inputAreaGrid.addWidget(self.rulesBox, 8, 0, 1, 1)
 
         self.rulesButton = QtWidgets.QPushButton(self.scrollAreaWidgetContents)
         fontRulBut = QtGui.QFont()
@@ -139,7 +147,7 @@ class Ui_RegisterWindow(object):
         fontRulBut.setWeight(75)
         self.rulesButton.setFont(fontRulBut)
         self.rulesButton.setObjectName("rulesButton")
-        self.inputAreaGrid.addWidget(self.rulesButton, 7, 1, 1, 1)
+        self.inputAreaGrid.addWidget(self.rulesButton, 8, 1, 1, 1)
 
         # end of inputAreaGrid
         # end of scroll area
@@ -153,10 +161,10 @@ class Ui_RegisterWindow(object):
         self.buttonBox.button(QtWidgets.QDialogButtonBox.Discard).clicked.connect(self.discardNewUser)
         self.buttonBox.setCenterButtons(True)
         self.buttonBox.setObjectName("buttonBox")
-        self.MainLayout.addWidget(self.buttonBox, 4, 0, 1, 1)
+        self.MainLayout.addWidget(self.buttonBox, 5, 0, 1, 1)
 
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.MainLayout.addWidget(self.scrollArea, 3, 0, 1, 1)
+        self.MainLayout.addWidget(self.scrollArea, 4, 0, 1, 1)
         self.RegisterWindow.setCentralWidget(self.centralwidget)
 
         # menu bar
@@ -196,15 +204,15 @@ class Ui_RegisterWindow(object):
     def retranslateUi(self, RegisterWindow):
         _translate = QtCore.QCoreApplication.translate
         self.RegisterWindow.setWindowTitle(_translate("RegisterWindow", "User registration"))
-        self.infoLabel.setText(_translate("RegisterWindow", "Registration form.....\n"
-" dsfa \n"
-" ff"))
+        self.infoLabel.setText(_translate("RegisterWindow", "Linguenee registration form \n"
+"Start your journey right now! \n"))
         self.Linguenee.setText(_translate("RegisterWindow", "Linguenee"))
         self.ageLabel.setText(_translate("RegisterWindow", "Birth date:"))
         self.rulesBox.setText(_translate("RegisterWindow", "I agree with the rules"))
         self.passwordLabel2.setText(_translate("RegisterWindow", "Repeat Password:"))
         self.passwordLabel.setText(_translate("RegisterWindow", "Password:"))
         self.surnameLabel.setText(_translate("RegisterWindow", "Surname:"))
+        self.emailLabel.setText(_translate("RegisterWindow", "E-mail:"))
         self.nameLabel.setText(_translate("RegisterWindow", "Name:"))
         self.sexLabel.setText(_translate("RegisterWindow", "Sex:"))
         self.loginLabel.setText(_translate("RegisterWindow", "Login:"))
@@ -223,19 +231,21 @@ class Ui_RegisterWindow(object):
         print("Button save cklicked")
         if self.rulesBox.isChecked() == True:
             try:
-                userName = self.nameEdit.text()
-                userSurname = self.surnameEdit.text()
+                userName = passCreator.deletingEndSpace(self.nameEdit.text())
+                userSurname = passCreator.deletingEndSpace(self.surnameEdit.text())
+                userEmail = passCreator.deletingEndSpace(self.emailEdit.text())
+
                 userDoF = self.date_of_birth.dateTime()
                 userDoF = userDoF.toString(self.date_of_birth.displayFormat())
                 userSex = self.sexBox.currentText()
-                userID = self.loginEdit.text()
+                userID = passCreator.deletingEndSpace(self.loginEdit.text())
 
-                userPassword1 = self.passwordEdit1.text()
-                userPassword2 = self.passwordEdit2.text()
+                userPassword1 = passCreator.deletingEndSpace(self.passwordEdit1.text())
+                userPassword2 = passCreator.deletingEndSpace(self.passwordEdit2.text())
 
                 # checking if all fields are not empty:
-                textArray = [userName, userSurname, userID, userPassword1]
-                messageArray = ["Your name", "Your surname", "Your login", "Your password"]
+                textArray = [userName, userSurname, userID, userPassword1, userEmail]
+                messageArray = ["Your name", "Your surname", "Your login", "Your password", "Your Email"]
                 for nr in range(len(textArray)):
                     if self.isNotEmpty(textArray[nr], messageArray[nr]) == False:
                         boolNotEmpty = False
@@ -246,7 +256,6 @@ class Ui_RegisterWindow(object):
                 # checking if the login already exists:
                 boolLoginExists = self.loginExist(userID)
 
-
                 # checking if passwords are same:
                 boolPasswordSame = self.samePassword(userPassword1, userPassword2)
                 print(userPassword1)
@@ -254,6 +263,7 @@ class Ui_RegisterWindow(object):
                     todayDate = datetime.datetime.now()
                     userInfo = {"login": userID,
                                 "password": passCreator.hash_password(userPassword1),
+                                "email": userEmail,
                                 "name": userName,
                                 "surname": userSurname,
                                 "birthday": userDoF,
@@ -262,10 +272,15 @@ class Ui_RegisterWindow(object):
 
                     passCreator.saveUserDataFile(userInfo)
                     self.newUserMsg(userName)
-                    allUserData = passCreator.openUserDataFile()
+                    passCreator.create_user_file(userInfo["login"])
+                    passCreator.create_set_folder()
 
+                    # printing info
+                    allUserData = passCreator.openUserDataFile()
                     for k in allUserData:
                         print(k)
+
+
             except Exception as err:
                 print("error kk:", err)
                 error_in_app(err)

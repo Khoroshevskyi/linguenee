@@ -172,8 +172,8 @@ class Ui_startWindow(object):
 
     def userCheck(self):
         try:
-            userID = self.loginLine.text()
-            userPass = self.passwordLine.text()
+            userID = passCreator.deletingEndSpace(self.loginLine.text())
+            userPass = passCreator.deletingEndSpace(self.passwordLine.text())
 
             users = passCreator.openUserDataFile()
             for user in users:
@@ -195,8 +195,6 @@ class Ui_startWindow(object):
 
             print("your login is: " + userID)
             print("your password is: " + userPass)
-
-
 
 
 if __name__ == "__main__":

@@ -4,6 +4,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 import datetime
 from progData import *
+import passCreator
 
 
 class Ui_mainWindow(object):
@@ -32,6 +33,7 @@ class Ui_mainWindow(object):
         self.timer.timeout.connect(self.onTimeout)
         self.timer.start(1000)
 
+        # test area
         self.scrollAreaTest = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollAreaTest.setMinimumSize(QtCore.QSize(179, 148))
         self.scrollAreaTest.setMaximumSize(QtCore.QSize(16777215, 158))
@@ -42,6 +44,8 @@ class Ui_mainWindow(object):
         self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents_3")
         self.formLayout_6 = QtWidgets.QFormLayout(self.scrollAreaWidgetContents_3)
         self.formLayout_6.setObjectName("formLayout_6")
+
+        # label test
         self.labelTest = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
         font = QtGui.QFont()
         font.setPointSize(10)
@@ -51,39 +55,55 @@ class Ui_mainWindow(object):
         self.labelTest.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.labelTest.setObjectName("labelTest")
         self.formLayout_6.setWidget(0, QtWidgets.QFormLayout.SpanningRole, self.labelTest)
+
+        # added lines
         self.line_4 = QtWidgets.QFrame(self.scrollAreaWidgetContents_3)
         self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_4.setObjectName("line_4")
         self.formLayout_6.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.line_4)
+
+        # added lines
         self.line_5 = QtWidgets.QFrame(self.scrollAreaWidgetContents_3)
         self.line_5.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_5.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_5.setObjectName("line_5")
         self.formLayout_6.setWidget(2, QtWidgets.QFormLayout.SpanningRole, self.line_5)
+
+        # label test set
         self.labelTestSet = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
         self.labelTestSet.setObjectName("labelTestSet")
         self.formLayout_6.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.labelTestSet)
+
+        # combo box in test
         self.comboBoxSetTest = QtWidgets.QComboBox(self.scrollAreaWidgetContents_3)
         self.comboBoxSetTest.setObjectName("comboBoxSetTest")
-        self.comboBoxSetTest.addItem("")
-        self.comboBoxSetTest.addItem("")
+        test_sets = ["Numbers","Fuels","Animals","Genetics"]
+        self.comboBoxSetTest.addItems(test_sets)
         self.formLayout_6.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.comboBoxSetTest)
+
+        # label test levels
         self.labelTestLevels = QtWidgets.QLabel(self.scrollAreaWidgetContents_3)
         self.labelTestLevels.setObjectName("labelTestLevels")
         self.formLayout_6.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.labelTestLevels)
+
+        # combobox test levels
         self.comboBoxTestLevels = QtWidgets.QComboBox(self.scrollAreaWidgetContents_3)
         self.comboBoxTestLevels.setObjectName("comboBoxTestLevels")
-        self.comboBoxTestLevels.addItem("")
-        self.comboBoxTestLevels.addItem("")
-        self.comboBoxTestLevels.addItem("")
-        self.comboBoxTestLevels.addItem("")
+        test_levels = ["Easy", "Middle", "Hard"]
+        self.comboBoxTestLevels.addItems(test_levels)
         self.formLayout_6.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.comboBoxTestLevels)
+
+        # button tests
         self.pushButtonTestLet = QtWidgets.QPushButton(self.scrollAreaWidgetContents_3)
         self.pushButtonTestLet.setObjectName("pushButtonTestLet")
         self.formLayout_6.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.pushButtonTestLet)
         self.scrollAreaTest.setWidget(self.scrollAreaWidgetContents_3)
+        # add Test to grid layout
         self.gridLayout.addWidget(self.scrollAreaTest, 4, 2, 1, 4)
+
+
+
         self.scrollAreaSetModifier = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollAreaSetModifier.setMinimumSize(QtCore.QSize(242, 148))
         self.scrollAreaSetModifier.setWidgetResizable(True)
@@ -107,20 +127,29 @@ class Ui_mainWindow(object):
         self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_2.setObjectName("line_2")
         self.formLayout_4.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.line_2)
+
+        # comboBox sets to modify
         self.comboBoxModifySet = QtWidgets.QComboBox(self.scrollAreaWidgetContents_4)
         self.comboBoxModifySet.setObjectName("comboBoxModifySet")
-        self.comboBoxModifySet.addItem("")
-        self.comboBoxModifySet.addItem("")
-        self.comboBoxModifySet.addItem("")
+        sets_to_modify = ["Numbers","Medicine","Coronavirus",]
+        self.comboBoxModifySet.addItems(sets_to_modify)
         self.formLayout_4.setWidget(2, QtWidgets.QFormLayout.SpanningRole, self.comboBoxModifySet)
+
         self.line = QtWidgets.QFrame(self.scrollAreaWidgetContents_4)
         self.line.setFrameShape(QtWidgets.QFrame.HLine)
         self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line.setObjectName("line")
         self.formLayout_4.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.line)
+
         self.pushButtonModify = QtWidgets.QPushButton(self.scrollAreaWidgetContents_4)
         self.pushButtonModify.setObjectName("pushButtonModify")
         self.formLayout_4.setWidget(5, QtWidgets.QFormLayout.SpanningRole, self.pushButtonModify)
+
+        self.ButtonAddSetToYourList = QtWidgets.QPushButton(self.scrollAreaWidgetContents_4)
+        self.ButtonAddSetToYourList.setObjectName("ButtonAddSetToYourList")
+        self.formLayout_4.setWidget(6, QtWidgets.QFormLayout.SpanningRole, self.ButtonAddSetToYourList)
+
+
         self.line_3 = QtWidgets.QFrame(self.scrollAreaWidgetContents_4)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
@@ -136,6 +165,9 @@ class Ui_mainWindow(object):
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_2.setObjectName("gridLayout_2")
+
+        # information about achivements and adding a new set:
+        # first creating a widget
         self.tabWidgetUser = QtWidgets.QTabWidget(self.scrollAreaWidgetContents)
         self.tabWidgetUser.setEnabled(True)
         font = QtGui.QFont()
@@ -143,37 +175,50 @@ class Ui_mainWindow(object):
         self.tabWidgetUser.setFont(font)
         self.tabWidgetUser.setTabShape(QtWidgets.QTabWidget.Triangular)
         self.tabWidgetUser.setObjectName("tabWidgetUser")
+
+        # achivements window
         self.achivements = QtWidgets.QWidget()
         self.achivements.setObjectName("achivements")
         self.formLayout_2 = QtWidgets.QFormLayout(self.achivements)
         self.formLayout_2.setObjectName("formLayout_2")
+
+        # a lot of different labels
         self.lebelSetQuantity1 = QtWidgets.QLabel(self.achivements)
         self.lebelSetQuantity1.setObjectName("lebelSetQuantity1")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.lebelSetQuantity1)
+
         self.labelSetQuantity2 = QtWidgets.QLabel(self.achivements)
         self.labelSetQuantity2.setAlignment(QtCore.Qt.AlignCenter)
         self.labelSetQuantity2.setObjectName("labelSetQuantity2")
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.labelSetQuantity2)
+
         self.labelSetsFinished1 = QtWidgets.QLabel(self.achivements)
         self.labelSetsFinished1.setObjectName("labelSetsFinished1")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.labelSetsFinished1)
+
         self.labelSetsFinished2 = QtWidgets.QLabel(self.achivements)
         self.labelSetsFinished2.setAlignment(QtCore.Qt.AlignCenter)
         self.labelSetsFinished2.setObjectName("labelSetsFinished2")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.labelSetsFinished2)
+
         self.labelSetsInProgress1 = QtWidgets.QLabel(self.achivements)
         self.labelSetsInProgress1.setObjectName("labelSetsInProgress1")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.labelSetsInProgress1)
+
         self.labelSetInProgress2 = QtWidgets.QLabel(self.achivements)
         self.labelSetInProgress2.setAlignment(QtCore.Qt.AlignCenter)
         self.labelSetInProgress2.setObjectName("labelSetInProgress2")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.labelSetInProgress2)
+
         self.labelTests = QtWidgets.QLabel(self.achivements)
         self.labelTests.setObjectName("labelTests")
         self.formLayout_2.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.labelTests)
+
         self.labelTests2 = QtWidgets.QLabel(self.achivements)
         self.labelTests2.setObjectName("labelTests2")
         self.formLayout_2.setWidget(4, QtWidgets.QFormLayout.SpanningRole, self.labelTests2)
+
+        # progressBar
         self.progressBar = QtWidgets.QProgressBar(self.achivements)
         self.progressBar.setInputMethodHints(QtCore.Qt.ImhNone)
         self.progressBar.setProperty("value", 57)
@@ -183,48 +228,73 @@ class Ui_mainWindow(object):
         self.progressBar.setTextDirection(QtWidgets.QProgressBar.TopToBottom)
         self.progressBar.setObjectName("progressBar")
         self.formLayout_2.setWidget(6, QtWidgets.QFormLayout.SpanningRole, self.progressBar)
+
+        # add items above
         self.labelPercent = QtWidgets.QLabel(self.achivements)
         self.labelPercent.setObjectName("labelPercent")
         self.formLayout_2.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.labelPercent)
         self.tabWidgetUser.addTab(self.achivements, "")
+
+        ### Creating a new set window item
+        # Create new set
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
         self.formLayout_3 = QtWidgets.QFormLayout(self.tab)
         self.formLayout_3.setObjectName("formLayout_3")
+
+        #  label create new set
         self.labelCreateNewSet = QtWidgets.QLabel(self.tab)
         self.labelCreateNewSet.setObjectName("labelCreateNewSet")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.SpanningRole, self.labelCreateNewSet)
+
+        # label set Name of set
         self.labelSetName = QtWidgets.QLabel(self.tab)
         self.labelSetName.setObjectName("labelSetName")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.labelSetName)
+
+        # edit_line: specify name
         self.lineEditSetName = QtWidgets.QLineEdit(self.tab)
         self.lineEditSetName.setObjectName("lineEditSetName")
         self.formLayout_3.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.lineEditSetName)
-        self.label_4 = QtWidgets.QLabel(self.tab)
-        self.label_4.setObjectName("label_4")
-        self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.label_4)
+
+        # Label comboBox_lang_1
+        self.labelLanguage1 = QtWidgets.QLabel(self.tab)
+        self.labelLanguage1.setObjectName("labelLanguage1")
+        self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.labelLanguage1)
+
+        # comboBox_lang_1
         self.comboBoxLanguage = QtWidgets.QComboBox(self.tab)
         self.comboBoxLanguage.setObjectName("comboBoxLanguage")
-        self.comboBoxLanguage.addItem("")
-        self.comboBoxLanguage.addItem("")
-        self.comboBoxLanguage.addItem("")
+        self.language_items_1 = LANGUAGESTOLEARN
+        self.comboBoxLanguage.addItems(self.language_items_1)
         self.formLayout_3.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.comboBoxLanguage)
-        self.label_5 = QtWidgets.QLabel(self.tab)
-        self.label_5.setObjectName("label_5")
-        self.formLayout_3.setWidget(5, QtWidgets.QFormLayout.SpanningRole, self.label_5)
-        self.label_6 = QtWidgets.QLabel(self.tab)
-        self.label_6.setObjectName("label_6")
-        self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.label_6)
-        self.pushButtonCreate = QtWidgets.QPushButton(self.tab)
-        self.pushButtonCreate.setObjectName("pushButtonCreate")
-        self.formLayout_3.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.pushButtonCreate)
+
+        # Label comboBox_lang_2
+        self.labelLanguage2 = QtWidgets.QLabel(self.tab)
+        self.labelLanguage2.setObjectName("labelLanguage2")
+        self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.labelLanguage2)
+
+        # comboBox_lang_2
         self.comboBox = QtWidgets.QComboBox(self.tab)
         self.comboBox.setObjectName("comboBox")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
-        self.comboBox.addItem("")
+        self.language_items_2 = LANGUAGESTOLEARN
+        self.comboBox.addItems(self.language_items_2)
         self.formLayout_3.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.comboBox)
+
+        # Button - create new set
+        self.pushButtonCreate = QtWidgets.QPushButton(self.tab)
+        self.pushButtonCreate.setObjectName("pushButtonCreate")
+        self.pushButtonCreate.clicked.connect(self.create_set)
+        self.formLayout_3.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.pushButtonCreate)
+
+        # label after created stet
+        self.labelAfterCreateSet = QtWidgets.QLabel(self.tab)
+        self.labelAfterCreateSet.setObjectName("labelAfterCreateSet")
+        self.formLayout_3.setWidget(5, QtWidgets.QFormLayout.SpanningRole, self.labelAfterCreateSet)
+
         self.tabWidgetUser.addTab(self.tab, "")
+
+
         self.gridLayout_2.addWidget(self.tabWidgetUser, 0, 1, 1, 1)
         self.scrollAreaUser.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollAreaUser, 3, 0, 1, 2)
@@ -241,16 +311,19 @@ class Ui_mainWindow(object):
         self.labelLearnOptions = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         self.labelLearnOptions.setObjectName("labelLearnOptions")
         self.formLayout_5.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.labelLearnOptions)
-        self.comboBoxLearnOptions = QtWidgets.QComboBox(self.scrollAreaWidgetContents_2)
-        self.comboBoxLearnOptions.setObjectName("comboBoxLearnOptions")
-        self.comboBoxLearnOptions.addItem("")
-        self.comboBoxLearnOptions.addItem("")
-        self.formLayout_5.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.comboBoxLearnOptions)
+
         self.comboBoxLearnSet = QtWidgets.QComboBox(self.scrollAreaWidgetContents_2)
         self.comboBoxLearnSet.setObjectName("comboBoxLearnSet")
-        self.comboBoxLearnSet.addItem("")
-        self.comboBoxLearnSet.addItem("")
+        list_learnig_sets = ["Numbers", "Coronavirus", "Medicine"]
+        self.comboBoxLearnSet.addItems(list_learnig_sets)
         self.formLayout_5.setWidget(3, QtWidgets.QFormLayout.FieldRole, self.comboBoxLearnSet)
+
+        self.comboBoxLearnOptions = QtWidgets.QComboBox(self.scrollAreaWidgetContents_2)
+        self.comboBoxLearnOptions.setObjectName("comboBoxLearnOptions")
+        list_learnig_options = ["Option 1", "Option 2"]
+        self.comboBoxLearnOptions.addItems(list_learnig_options)
+        self.formLayout_5.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.comboBoxLearnOptions)
+
         self.labelLearnSet = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         self.labelLearnSet.setObjectName("labelLearnSet")
         self.formLayout_5.setWidget(3, QtWidgets.QFormLayout.LabelRole, self.labelLearnSet)
@@ -288,7 +361,6 @@ class Ui_mainWindow(object):
         self.gridLayout.addWidget(self.labelVersion, 5, 0, 1, 1)
         self.labelUserID = QtWidgets.QLabel(self.centralwidget)
 
-
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(True)
@@ -297,18 +369,14 @@ class Ui_mainWindow(object):
         self.labelUserID.setObjectName("labelUserID")
         self.gridLayout.addWidget(self.labelUserID, 2, 0, 1, 1)
 
-
         self.pushButtonLogOut = QtWidgets.QPushButton(self.centralwidget)
         self.pushButtonLogOut.setObjectName("pushButtonLogOut")
         self.gridLayout.addWidget(self.pushButtonLogOut, 5, 5, 1, 1)
-
 
         self.pushButtonCancel = QtWidgets.QPushButton(self.centralwidget)
         self.pushButtonCancel.setObjectName("pushButtonCancel")
         self.pushButtonCancel.clicked.connect(self.OpenStartWindow)
         self.gridLayout.addWidget(self.pushButtonCancel, 5, 4, 1, 1)
-
-
 
         self.mainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(mainWindow)
@@ -346,19 +414,13 @@ class Ui_mainWindow(object):
 
         self.labelTest.setText(_translate("mainWindow", "Test"))
         self.labelTestSet.setText(_translate("mainWindow", "Set:"))
-        self.comboBoxSetTest.setItemText(0, _translate("mainWindow", "12"))
-        self.comboBoxSetTest.setItemText(1, _translate("mainWindow", "21"))
         self.labelTestLevels.setText(_translate("mainWindow", "Levels:"))
-        self.comboBoxTestLevels.setItemText(0, _translate("mainWindow", "1"))
-        self.comboBoxTestLevels.setItemText(1, _translate("mainWindow", "2"))
-        self.comboBoxTestLevels.setItemText(2, _translate("mainWindow", "3"))
-        self.comboBoxTestLevels.setItemText(3, _translate("mainWindow", "New Item"))
         self.pushButtonTestLet.setText(_translate("mainWindow", "Let\'s Go"))
+
+        # add one button
         self.labelModifySet.setText(_translate("mainWindow", "Modify Set:"))
-        self.comboBoxModifySet.setItemText(0, _translate("mainWindow", "Name1"))
-        self.comboBoxModifySet.setItemText(1, _translate("mainWindow", "Name2"))
-        self.comboBoxModifySet.setItemText(2, _translate("mainWindow", "Name3"))
         self.pushButtonModify.setText(_translate("mainWindow", "Modify"))
+        self.ButtonAddSetToYourList.setText(_translate("mainWindow", "Add exsisting set to your list"))
         self.lebelSetQuantity1.setText(_translate("mainWindow", "Set quantity:"))
         self.labelSetQuantity2.setText(_translate("mainWindow", "Ilosc 5"))
         self.labelSetsFinished1.setText(_translate("mainWindow", "Sets finished:"))
@@ -366,32 +428,24 @@ class Ui_mainWindow(object):
         self.labelSetsInProgress1.setText(_translate("mainWindow", "Sets in progress:"))
         self.labelSetInProgress2.setText(_translate("mainWindow", "Ilosc 3"))
         self.labelTests.setText(_translate("mainWindow", "Tests:"))
-        self.labelTests2.setText(_translate("mainWindow", "asdfasdf \n"
-"Blabla: find \n"
-" \n"
-"Bla Bla"))
+        self.labelTests2.setText(_translate("mainWindow", "Your sets:\n"
+" First set\n"
+" Second set\n Thirsd set"))
         self.progressBar.setFormat(_translate("mainWindow", "%p%"))
         self.labelPercent.setText(_translate("mainWindow", "Percent done:"))
         self.tabWidgetUser.setTabText(self.tabWidgetUser.indexOf(self.achivements), _translate("mainWindow", "Achivements"))
         self.labelCreateNewSet.setText(_translate("mainWindow", "Create new set:"))
         self.labelSetName.setText(_translate("mainWindow", "Set Name:"))
-        self.label_4.setText(_translate("mainWindow", "Language1:"))
-        self.comboBoxLanguage.setItemText(0, _translate("mainWindow", "English"))
-        self.comboBoxLanguage.setItemText(1, _translate("mainWindow", "German"))
-        self.comboBoxLanguage.setItemText(2, _translate("mainWindow", "Ukrainian"))
-        self.label_5.setText(_translate("mainWindow", "If you want add some words to \n"
+        self.labelLanguage1.setText(_translate("mainWindow", "Language1:"))
+
+        self.labelAfterCreateSet.setText(_translate("mainWindow", "If you want add some words to \n"
 " your set  go to modify table"))
-        self.label_6.setText(_translate("mainWindow", "Language2:"))
+        self.labelLanguage2.setText(_translate("mainWindow", "Language2:"))
         self.pushButtonCreate.setText(_translate("mainWindow", "Create"))
-        self.comboBox.setItemText(0, _translate("mainWindow", "English"))
-        self.comboBox.setItemText(1, _translate("mainWindow", "German"))
-        self.comboBox.setItemText(2, _translate("mainWindow", "Polish"))
+
         self.tabWidgetUser.setTabText(self.tabWidgetUser.indexOf(self.tab), _translate("mainWindow", "New set"))
         self.labelLearnOptions.setText(_translate("mainWindow", "Options:"))
-        self.comboBoxLearnOptions.setItemText(0, _translate("mainWindow", "Opcja 1"))
-        self.comboBoxLearnOptions.setItemText(1, _translate("mainWindow", "Opcja 2"))
-        self.comboBoxLearnSet.setItemText(0, _translate("mainWindow", "Zestaw1"))
-        self.comboBoxLearnSet.setItemText(1, _translate("mainWindow", "Zestaw2"))
+
         self.labelLearnSet.setText(_translate("mainWindow", "Set:"))
         self.pushButtonLearnLet.setText(_translate("mainWindow", "Let\'s Go"))
         self.labelLearn.setText(_translate("mainWindow", "Learn"))
@@ -418,9 +472,35 @@ class Ui_mainWindow(object):
     def onTimeout(self):
         self.labelDate.setText("    {0}".format(self.timeNow()))
 
-
     def timeNow(self):
         return(datetime.datetime.now()).strftime("%H:%M:%S  %d-%m-%Y")
+
+    def create_set(self):
+        new_set_name = self.lineEditSetName.text()
+        language_1 = self.comboBoxLanguage.currentText()
+        language_2 = self.comboBox.currentText()
+        newset = [new_set_name, language_1, language_2]
+        fold_name = language_1 + "-" + language_2
+        #if not exsitst
+        try:
+            if passCreator.set_exsists(fold_name, new_set_name) == False:
+                passCreator.create_set_file(fold_name, new_set_name)
+                msg = new_set_name+ " Successfully created"
+                self.message(new_set_name, msg)
+            else:
+                msg = new_set_name+ " Already exsitsts"
+                self.message(new_set_name, msg)
+        except Exception as err:
+            print(err)
+
+    def message(self, msg, msg_text):
+        self.NewUserMsg = QMessageBox()
+        self.NewUserMsg.setIcon(QMessageBox.Information)
+        self.NewUserMsg.setText(msg_text)
+        self.NewUserMsg.setWindowTitle(msg)
+        self.NewUserMsg.setStandardButtons(QMessageBox.Ok)
+        returnValue = self.NewUserMsg.exec()
+
 
 if __name__ == "__main__":
     import sys
