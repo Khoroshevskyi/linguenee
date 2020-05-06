@@ -2,6 +2,7 @@ import hashlib, binascii, os
 import pickle
 from progData import *
 
+#####################################################################
 # coding password
 def hash_password(password):
     """Hash a password for storing."""
@@ -23,127 +24,168 @@ def verify_password(stored_password, provided_password):
     pwdhash = binascii.hexlify(pwdhash).decode('ascii')
     return pwdhash == stored_password
 
-# searching for directory of file
-def directoryFind():
+def deletingEndSpace(word):
+    word = word.replace(" ", "")
+    return(word)
+
+#####################################################################
+# searching for directory and if not exsist - create - main directory
+def directoryFind(dir):
     try:
-        #homeDir = os.path.expanduser('~') + "\\Documents" + nameOfFolder
-        folder_check = os.path.isdir(HOMEDIR)
+        folder_check = os.path.isdir(dir)
         if folder_check == True:
-            return(HOMEDIR)
+            print("Directory already exsists %s" %dir)
+            return(dir)
         else:
-            directoryCreate(HOMEDIR)
-            return(HOMEDIR)
+            directoryCreate(dir)
+            return(dir)
     except OSError as err:
         print("Impossible to create folder" + err)
 
-# create directory if does not exists
+# create directory
 def directoryCreate(dir):
-    print("Creating a new directory...")
     try:
         os.mkdir(dir)
     except OSError:
         print ("Creation of the directory %s failed" % dir)
     else:
-        print ("Successfully created the directory")
+        print ("Successfully created the directory: %s"% dir)
 
-# creating or open existing binary user file
-def openUserDataFile():
+################################################################
+# Openings binary files in wich is one array, if not exsists - func create it
+def open_list_file(dir, file_name):
     try:
-        dir = directoryFind()+"\\" + USERINFOFILE
-        existFile = os.path.exists(dir)
+
+        dir_name_file = directoryFind(dir)+"\\" + file_name
+        existFile = os.path.exists(dir_name_file)
         if existFile == True:
-            pickle_in = open(dir, "rb")
+            pickle_in = open(dir_name_file, "rb")
             fileData = pickle.load(pickle_in)
             pickle_in.close()
-            print("File already exsists")
+            print("File: %s already exsists" % dir)
         else:
             fileData=[]
-            pickle_out = open(dir, "wb")
+            pickle_out = open(dir_name_file, "wb")
             pickle.dump(fileData, pickle_out)
             pickle_out.close()
-            print("Creating a file")
+            print("Creating a file %s" % dir)
         return fileData
     except OSError as err:
         print(err)
 
-def deletingEndSpace(word):
-    word = word.replace(" ", "")
-    return(word)
-
+###########################
 # saving data to userdatafile
 def saveUserDataFile(data):
-    dir = directoryFind()+"\\"+ USERINFOFILE
-    dataList = openUserDataFile()
-
+    dir = directoryFind(HOMEDIR)+"\\"+ USERINFOFILE
+    dataList = open_list_file(HOMEDIR,USERINFOFILE)
     dataList.append(data)
     pickle_out = open(dir, "wb")
     pickle.dump(dataList, pickle_out)
     pickle_out.close()
 
+# creating folders with User and users for tests and sets
 def create_user_file(login):
-    try:
-        folder_check = os.path.isdir(USERFILESDIR)
-        if folder_check == True:
-            pass
-        else:
-            directoryCreate(USERFILESDIR)
-    except OSError as err:
-        print("Impossible to create folder" + err)
+    directoryFind(USERFILESDIR)
+    userDir = USERFILESDIR + "\\" + login
+    directoryFind(userDir)
 
-    #CREATING login.txt
-    file_name = USERFILESDIR+ "\\"+ login + ".txt"
-    f= open(file_name,"w+")
-    f.close()
+    u_sets_dir = userDir + "\\" + "u_sets"
+    directoryFind(u_sets_dir)
+    u_tests_dir = Usets_dir = userDir + "\\" + "u_tests"
+    directoryFind(u_tests_dir)
 
-def create_set_folder():
-    try:
-        folder_check = os.path.isdir(SETSDIR)
-        if folder_check == True:
-            pass
-        else:
-            directoryCreate(SETSDIR)
-    except OSError as err:
-        print("Impossible to create folder" + err)
+    # creating file where will be info with sets that user created
+    open_list_file(userDir, USERSETSFILE)
+############
 
-def create_user_file(login):
-    try:
-        folder_check = os.path.isdir(USERFILESDIR)
-        if folder_check == True:
-            pass
-        else:
-            directoryCreate(USERFILESDIR)
-    except OSError as err:
-        print("Impossible to create folder" + err)
+# creating set file with 2 info file, who have this set in use
+def create_set_file(login, lang, set_name):
+    dir = directoryFind(SETSDIR)
+    file_name = set_name + ".ling"
+    file_dir_name = dir + "\\" + file_name
 
-    #CREATING login.txt
-    file_name = USERFILESDIR+ "\\"+ login + ".txt"
-    f= open(file_name,"w+")
-    f.close()
+    #data = { "#language": lang }
+    word_list = open_list_file(dir, file_name)
 
-def create_set_file(lang, set):
-    try:
-        folder_check = os.path.isdir(SETSDIR+"//"+lang)
-        if folder_check == True:
-            pass
-        else:
-            directoryCreate(SETSDIR+"//"+lang)
-    except OSError as err:
-        print("Impossible to create folder" + err)
+    pickle_out = open(file_dir_name, "wb")
+    pickle.dump(word_list, pickle_out)
+    pickle_out.close()
 
-    file_name = SETSDIR+ "\\"+ lang +"\\"+ set + ".txt"
-    f= open(file_name,"w+")
-    f.close()
+    add_words_user_use(login, set_name, [])
+    add_words_user_test(login, set_name, [])
 
-def set_exsists(lang, set):
-    try:
-        f = open(SETSDIR+ "\\"+ lang +"\\"+ set + ".txt")
-        f.close()
-    except IOError:
-        print("File not accessible")
+    open_and_add_set_file(login, set_name)
+    add_array_of_users(login, set_name)
+
+def add_words_user_use(login, set_name, words_added):
+    # words_added = [{"word": word, "meaning"},{...},...]
+    userDir = USERFILESDIR + "\\" + login + "\\u_sets"
+    set_name_file = set_name + ".ling"
+    file_dir_name = userDir + "\\" + set_name_file
+    list_prev = open_list_file(userDir, set_name_file)
+
+    for word in words_added:
+         list_prev = word["score"] = 0
+    print(list_prev)
+    pickle_out = open(file_dir_name, "wb")
+    pickle.dump(list_prev, pickle_out)
+    pickle_out.close()
+
+def add_words_user_test(login, set_name, words_added):
+    # words_added = [{"word": word, "meaning"},{...},...]
+    userDir = USERFILESDIR + "\\" + login + "\\u_tests"
+    set_name_file = set_name + ".ling"
+    file_dir_name = userDir + "\\" + set_name_file
+    list_prev = open_list_file(userDir, set_name_file)
+
+    for word in words_added:
+         list_prev = word["passed"] = False
+    print(list_prev)
+    pickle_out = open(file_dir_name, "wb")
+    pickle.dump(list_prev, pickle_out)
+    pickle_out.close()
+
+# creating, or open file in user folder with array
+def open_and_add_set_file(login, set):
+    userDir = USERFILESDIR + "\\" + login
+    file_dir_name = userDir +"\\"+ USERSETSFILE   # USERSETSFILE = user_sets.txt
+    print("adding 11:33")
+    data = open_list_file(userDir, USERSETSFILE)
+    data.append(set)
+    pickle_out = open(file_dir_name, "wb")
+    pickle.dump(data, pickle_out)
+    pickle_out.close()
+
+# adding in folder of sets file with array of users who use it
+def add_array_of_users(login, set_name):
+    dir = directoryFind(SETSDIR)
+    file_name = set_name + '_info.ling'
+    file_dir_name = dir + "\\" + file_name
+
+    data = open_list_file(dir, file_name)
+
+    data.append(login)
+    pickle_out = open(file_dir_name, "wb")
+    pickle.dump(data, pickle_out)
+    pickle_out.close()
+
+def set_exsists(set):
+    file_path = SETSDIR + "\\" + set + '.ling'
+    if (os.path.exists(file_path)):
+        return(True)
+    else:
         return(False)
 
+def openUserSetList(login):
+    userDir = USERFILESDIR + "\\" + login
+    file_name = userDir +"\\"+ USERSETSFILE
+    sets = open_list_file(userDir, USERSETSFILE)
+    return(sets)
 
-'''
-if __name__=="__main__":
-    directoryFind()
-'''
+def open_set_in_use(login):
+    dir = USERFILESDIR + "\\"+ login +"\\" + "u_sets"
+    sets_in_use = []
+    for root, dirs, files in os.walk(dir):
+        for filename in files:
+            sets_in_use.append(filename[:-5])
+    return(sets_in_use)

@@ -8,3 +8,4 @@ USERINFOFILE = "userInfoFile.ling"
 LOGOSTILE = "Harrington"
 APPSTYLE = "Fusion"
 LANGUAGESTOLEARN = ["English", "Spanish", "Polish"]
+USERSETSFILE = "user_sets.txt"

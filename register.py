@@ -258,7 +258,7 @@ class Ui_RegisterWindow(object):
 
                 # checking if passwords are same:
                 boolPasswordSame = self.samePassword(userPassword1, userPassword2)
-                print(userPassword1)
+
                 if boolNotEmpty and boolLoginExists and boolPasswordSame:
                     todayDate = datetime.datetime.now()
                     userInfo = {"login": userID,
@@ -273,22 +273,22 @@ class Ui_RegisterWindow(object):
                     passCreator.saveUserDataFile(userInfo)
                     self.newUserMsg(userName)
                     passCreator.create_user_file(userInfo["login"])
-                    passCreator.create_set_folder()
+                    passCreator.directoryFind(SETSDIR)
 
                     # printing info
-                    allUserData = passCreator.openUserDataFile()
+                    allUserData = passCreator.open_list_file(HOMEDIR,USERINFOFILE)
                     for k in allUserData:
                         print(k)
 
 
             except Exception as err:
-                print("error kk:", err)
+                print("error in 'saveNewUser' function:", err)
                 error_in_app(err)
         else:
             self.IncorrectData("Hey, You didn't checked chackbox with rules!")
 
     def loginExist(self, login):
-        allUserData = passCreator.openUserDataFile()
+        allUserData = passCreator.open_list_file(HOMEDIR, USERINFOFILE)
         if any(Ulogin["login"] == login for Ulogin in allUserData):
             message = "This loign already exists :/"
             self.IncorrectData(message)

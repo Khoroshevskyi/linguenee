@@ -172,10 +172,11 @@ class Ui_startWindow(object):
 
     def userCheck(self):
         try:
+
             userID = passCreator.deletingEndSpace(self.loginLine.text())
             userPass = passCreator.deletingEndSpace(self.passwordLine.text())
 
-            users = passCreator.openUserDataFile()
+            users = passCreator.open_list_file(HOMEDIR,"userInfoFIle.ling")
             for user in users:
                 if user["login"] == userID:
                     if passCreator.verify_password(user["password"], userPass):
