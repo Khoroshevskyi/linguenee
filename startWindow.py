@@ -5,6 +5,10 @@ import sys
 from progData import *
 
 class Ui_startWindow(object):
+    """
+    Creating start window with Edit line -- login and password
+    + button to register new user and write again password if user has forgot it
+    """
     def setupUi(self, startWindow):
         self.startWindow = startWindow
         self.startWindow.setObjectName("startWindow")
@@ -160,7 +164,6 @@ class Ui_startWindow(object):
         except BaseException as err:
             self.error_in_app(str(err) + " in userEvent")
 
-
     def error_in_app(self, err):
         self.errorMsg = QMessageBox()
         self.errorMsg.setIcon(QMessageBox.Critical)
@@ -172,10 +175,8 @@ class Ui_startWindow(object):
 
     def userCheck(self):
         try:
-
             userID = passCreator.deletingEndSpace(self.loginLine.text())
             userPass = passCreator.deletingEndSpace(self.passwordLine.text())
-
             users = passCreator.open_list_file(HOMEDIR,"userInfoFIle.ling")
             for user in users:
                 if user["login"] == userID:
@@ -196,7 +197,6 @@ class Ui_startWindow(object):
 
             print("your login is: " + userID)
             print("your password is: " + userPass)
-
 
 if __name__ == "__main__":
     try:

@@ -8,6 +8,10 @@ import passCreator
 
 
 class Ui_mainWindow(object):
+    """
+    User  window. The main window for user, where he/she can add new sets,
+    modify them, start a test, satrt learning a set or just change user data.
+    """
     def __init__(self, UserID):
         self.UserID = UserID
 
@@ -274,17 +278,18 @@ class Ui_mainWindow(object):
         # button modify set
         self.pushButtonModify = QtWidgets.QPushButton(self.scrollAreaWidgetContents_4)
         self.pushButtonModify.setObjectName("pushButtonModify")
+        self.pushButtonModify.clicked.connect(self.modify_set)
         self.formLayout_4.setWidget(5, QtWidgets.QFormLayout.SpanningRole, self.pushButtonModify)
 
         # button to add set to your list
         self.ButtonAddSetToYourList = QtWidgets.QPushButton(self.scrollAreaWidgetContents_4)
         self.ButtonAddSetToYourList.setObjectName("ButtonAddSetToYourList")
+        self.ButtonAddSetToYourList.clicked.connect(self.set_to_your_list)
         self.formLayout_4.setWidget(6, QtWidgets.QFormLayout.SpanningRole, self.ButtonAddSetToYourList)
 
         self.scrollAreaSetModifier.setWidget(self.scrollAreaWidgetContents_4)
         self.gridLayout.addWidget(self.scrollAreaSetModifier, 4, 0, 1, 2)
         # and of scorll area set modifier
-
 
         self.scrollAreaLearn = QtWidgets.QScrollArea(self.centralwidget)
         self.scrollAreaLearn.setMinimumSize(QtCore.QSize(179, 149))
@@ -324,6 +329,8 @@ class Ui_mainWindow(object):
         self.formLayout_5.setWidget(2, QtWidgets.QFormLayout.SpanningRole, self.lineLearn)
         self.pushButtonLearnLet = QtWidgets.QPushButton(self.scrollAreaWidgetContents_2)
         self.pushButtonLearnLet.setObjectName("pushButtonLearnLet")
+        self.pushButtonLearnLet.clicked.connect(self.learn)
+
         self.formLayout_5.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.pushButtonLearnLet)
         self.labelLearn = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         self.labelLearn.setBaseSize(QtCore.QSize(10, 0))
@@ -478,7 +485,6 @@ class Ui_mainWindow(object):
         self.labelLanguage2.setText(_translate("mainWindow", "Language2:"))
         self.pushButtonCreate.setText(_translate("mainWindow", "Create"))
 
-
         self.labelLearnOptions.setText(_translate("mainWindow", "Options:"))
         self.labelLearnSet.setText(_translate("mainWindow", "Set:"))
         self.pushButtonLearnLet.setText(_translate("mainWindow", "Let\'s Go"))
@@ -544,6 +550,36 @@ class Ui_mainWindow(object):
             else:
                 msg = new_set_name+ " Already exsitsts"
                 self.message(new_set_name, msg)
+        except Exception as err:
+            print(err)
+
+    def modify_set(self):
+        print("You want to modify_set")
+
+        set_to_modify = self.comboBoxModifySet.currentText()
+        if set_to_modify:
+            import AddWordWindow as add
+            # self.mainWindow.close()
+            AddWords = QtWidgets.QDialog()
+            self.uif = add.Ui_AddWords()
+            self.uif.setupUi(AddWords, set_to_modify)
+            AddWords.show()
+
+    def set_to_your_list(self):
+        import AddSetList as add1
+
+        Dialog = QtWidgets.QDialog()
+        self.ui1 = add1.Ui_Dialog()
+        self.ui1.setupUi(Dialog, self.UserID)
+        Dialog.show()
+
+    def learn(self):
+        try:
+            lern_set = self.comboBoxLearnSet.currentText()
+            userDir = USERFILESDIR + "\\" + self.UserID + "\\u_sets"
+            file = passCreator.open_list_file(userDir , lern_set)
+            for f in file:
+                print(f)
         except Exception as err:
             print(err)
 

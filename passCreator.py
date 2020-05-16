@@ -1,3 +1,7 @@
+"""
+Engine of the program. All writing to database and reading info from it
+is using functions form this file (from passCreator)
+"""
 import hashlib, binascii, os
 import pickle
 from progData import *
@@ -63,6 +67,7 @@ def open_list_file(dir, file_name):
             fileData = pickle.load(pickle_in)
             pickle_in.close()
             print("File: %s already exsists" % dir)
+
         else:
             fileData=[]
             pickle_out = open(dir_name_file, "wb")
@@ -98,10 +103,10 @@ def create_user_file(login):
     open_list_file(userDir, USERSETSFILE)
 ############
 
-# creating set file with 2 info file, who have this set in use
+# creating set file with info file, who have this set in use
 def create_set_file(login, lang, set_name):
     dir = directoryFind(SETSDIR)
-    file_name = set_name + ".ling"
+    file_name = set_name + ""
     file_dir_name = dir + "\\" + file_name
 
     #data = { "#language": lang }
@@ -117,24 +122,33 @@ def create_set_file(login, lang, set_name):
     open_and_add_set_file(login, set_name)
     add_array_of_users(login, set_name)
 
-def add_words_user_use(login, set_name, words_added):
-    # words_added = [{"word": word, "meaning"},{...},...]
-    userDir = USERFILESDIR + "\\" + login + "\\u_sets"
-    set_name_file = set_name + ".ling"
-    file_dir_name = userDir + "\\" + set_name_file
-    list_prev = open_list_file(userDir, set_name_file)
+# function for addsetlist to add new set for user
+def add_words2(login, set_name):
+    dir = directoryFind(SETSDIR)
+    file_name = set_name
+    file_dir_name = dir + "\\" + file_name
+    word_list = open_list_file(dir, file_name)
+    add_words_user_use(login, set_name, word_list)
 
+# adding file with learn set in user directory
+def add_words_user_use(login, set_name, words_added):
+    # words_added = [{"word": word, "meaning":''},{...},...]
+    userDir = USERFILESDIR + "\\" + login + "\\u_sets"
+    set_name_file = set_name + ""
+    file_dir_name = userDir + "\\" + set_name_file
+    learn_list = []
     for word in words_added:
-         list_prev = word["score"] = 0
-    print(list_prev)
+         word["score"] = 0
+         learn_list.append(word)
     pickle_out = open(file_dir_name, "wb")
-    pickle.dump(list_prev, pickle_out)
+    pickle.dump(learn_list, pickle_out)
     pickle_out.close()
 
+# adding file with test set in user directory
 def add_words_user_test(login, set_name, words_added):
     # words_added = [{"word": word, "meaning"},{...},...]
     userDir = USERFILESDIR + "\\" + login + "\\u_tests"
-    set_name_file = set_name + ".ling"
+    set_name_file = set_name + ""
     file_dir_name = userDir + "\\" + set_name_file
     list_prev = open_list_file(userDir, set_name_file)
 
@@ -159,7 +173,7 @@ def open_and_add_set_file(login, set):
 # adding in folder of sets file with array of users who use it
 def add_array_of_users(login, set_name):
     dir = directoryFind(SETSDIR)
-    file_name = set_name + '_info.ling'
+    file_name = set_name + '.info'
     file_dir_name = dir + "\\" + file_name
 
     data = open_list_file(dir, file_name)
@@ -170,7 +184,7 @@ def add_array_of_users(login, set_name):
     pickle_out.close()
 
 def set_exsists(set):
-    file_path = SETSDIR + "\\" + set + '.ling'
+    file_path = SETSDIR + "\\" + set + ''
     if (os.path.exists(file_path)):
         return(True)
     else:
@@ -187,5 +201,25 @@ def open_set_in_use(login):
     sets_in_use = []
     for root, dirs, files in os.walk(dir):
         for filename in files:
-            sets_in_use.append(filename[:-5])
+            sets_in_use.append(filename)
     return(sets_in_use)
+
+def openSetsAvailable():
+    dir = SETSDIR
+    sets_in_use = []
+    for root, dirs, files in os.walk(dir):
+        for filename in files:
+            if filename[-5:] != ".info":
+                sets_in_use.append(filename)
+    return(sets_in_use)
+
+# modifiing set in users folders
+def modify_learn_set(set):
+    pass
+
+def save_set(set, set_name):
+    # set = [{"word": "word", "meaning": "meaning"},{},{}]
+    dir = SETSDIR+"\\"+ set_name
+    pickle_out = open(dir, "wb")
+    pickle.dump(set, pickle_out)
+    pickle_out.close()
