@@ -109,17 +109,18 @@ class Ui_Dialog(object):
         self.Dialog.close()
 
     def add_set_to_your_list(self):
-
-        print(self.current_set_name)
-        sets_in_use = passCreator.open_set_in_use(self.UserID)
-        print(sets_in_use)
-        if (self.current_set_name in sets_in_use) == False:
-            passCreator.add_words2(self.UserID, self.current_set_name)
-            passCreator.add_array_of_users(self.UserID, self.current_set_name)
-            self.message("Added!", "Set has been added to your list!")
-        else:
-            self.message("Error!", "This set is already in your list!")
-
+        try:
+            print(self.current_set_name)
+            sets_in_use = passCreator.open_set_in_use(self.UserID)
+            print(sets_in_use)
+            if (self.current_set_name in sets_in_use) == False:
+                passCreator.add_words2(self.UserID, self.current_set_name)
+                passCreator.add_array_of_users(self.UserID, self.current_set_name)
+                self.message("Added!", "Set has been added to your list!")
+            else:
+                self.message("Error!", "This set is already in your list!")
+        except Exception as err:
+            print("err:", err)
         # add modifiing set in user dir if set is chenged
 
     def message(self, msg, msg_text):
@@ -130,11 +131,13 @@ class Ui_Dialog(object):
         self.NewUserMsg.setStandardButtons(QMessageBox.Ok)
         returnValue = self.NewUserMsg.exec()
 
+"""
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Dialog = QtWidgets.QDialog()
     ui = Ui_Dialog()
-    ui.setupUi(Dialog, "Karaczan1")
+    ui.setupUi(Dialog, "Admin")
     Dialog.show()
     sys.exit(app.exec_())
+"""

@@ -129,7 +129,9 @@ def add_words2(login, set_name):
     file_dir_name = dir + "\\" + file_name
     word_list = open_list_file(dir, file_name)
     add_words_user_use(login, set_name, word_list)
+    add_words_user_test(login, set_name, word_list)
 
+###################################################
 # adding file with learn set in user directory
 def add_words_user_use(login, set_name, words_added):
     # words_added = [{"word": word, "meaning":''},{...},...]
@@ -151,19 +153,36 @@ def add_words_user_test(login, set_name, words_added):
     set_name_file = set_name + ""
     file_dir_name = userDir + "\\" + set_name_file
     list_prev = open_list_file(userDir, set_name_file)
-
+    list_prev = []
     for word in words_added:
-         list_prev = word["passed"] = False
-    print(list_prev)
+         word["passed"] = False
+         list_prev.append(word)
     pickle_out = open(file_dir_name, "wb")
     pickle.dump(list_prev, pickle_out)
     pickle_out.close()
+#####################################
+
+# saving changed data in learning set of user
+def edit_user_learing_set(UserID, SetName, data):
+    userDir = USERFILESDIR + "\\" + UserID + "\\u_sets"
+    file_dir_name = userDir + "\\" + SetName
+    pickle_out = open(file_dir_name, "wb")
+    pickle.dump(data, pickle_out)
+    pickle_out.close()
+
+# saving changed data in test set of user
+def edit_user_test_set(UserID, SetName, data):
+    userDir = USERFILESDIR + "\\" + UserID + "\\u_sets"
+    file_dir_name = userDir + "\\" + SetName
+    pickle_out = open(file_dir_name, "wb")
+    pickle.dump(data, pickle_out)
+    pickle_out.close()
+####################################
 
 # creating, or open file in user folder with array
 def open_and_add_set_file(login, set):
     userDir = USERFILESDIR + "\\" + login
     file_dir_name = userDir +"\\"+ USERSETSFILE   # USERSETSFILE = user_sets.txt
-    print("adding 11:33")
     data = open_list_file(userDir, USERSETSFILE)
     data.append(set)
     pickle_out = open(file_dir_name, "wb")
@@ -213,9 +232,6 @@ def openSetsAvailable():
                 sets_in_use.append(filename)
     return(sets_in_use)
 
-# modifiing set in users folders
-def modify_learn_set(set):
-    pass
 
 def save_set(set, set_name):
     # set = [{"word": "word", "meaning": "meaning"},{},{}]

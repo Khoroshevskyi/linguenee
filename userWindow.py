@@ -330,8 +330,8 @@ class Ui_mainWindow(object):
         self.pushButtonLearnLet = QtWidgets.QPushButton(self.scrollAreaWidgetContents_2)
         self.pushButtonLearnLet.setObjectName("pushButtonLearnLet")
         self.pushButtonLearnLet.clicked.connect(self.learn)
-
         self.formLayout_5.setWidget(6, QtWidgets.QFormLayout.FieldRole, self.pushButtonLearnLet)
+
         self.labelLearn = QtWidgets.QLabel(self.scrollAreaWidgetContents_2)
         self.labelLearn.setBaseSize(QtCore.QSize(10, 0))
         font = QtGui.QFont()
@@ -405,6 +405,7 @@ class Ui_mainWindow(object):
         # button tests
         self.pushButtonTestLet = QtWidgets.QPushButton(self.scrollAreaWidgetContents_3)
         self.pushButtonTestLet.setObjectName("pushButtonTestLet")
+        self.pushButtonTestLet.clicked.connect(self.test_it)
         self.formLayout_6.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.pushButtonTestLet)
         self.scrollAreaTest.setWidget(self.scrollAreaWidgetContents_3)
         # add Test to grid layout
@@ -414,12 +415,13 @@ class Ui_mainWindow(object):
         ### Button LogOut
         self.pushButtonLogOut = QtWidgets.QPushButton(self.centralwidget)
         self.pushButtonLogOut.setObjectName("pushButtonLogOut")
+        self.pushButtonLogOut.clicked.connect(self.OpenStartWindow)
         self.gridLayout.addWidget(self.pushButtonLogOut, 5, 5, 1, 1)
 
         ### Button Cancel
         self.pushButtonCancel = QtWidgets.QPushButton(self.centralwidget)
         self.pushButtonCancel.setObjectName("pushButtonCancel")
-        self.pushButtonCancel.clicked.connect(self.OpenStartWindow)
+        self.pushButtonCancel.clicked.connect(self.refresh_page)
         self.gridLayout.addWidget(self.pushButtonCancel, 5, 4, 1, 1)
 
         ### menu options
@@ -438,6 +440,7 @@ class Ui_mainWindow(object):
         self.mainWindow.setStatusBar(self.statusbar)
         self.actionHelp = QtWidgets.QAction(mainWindow)
         self.actionHelp.setObjectName("actionHelp")
+        self.actionHelp.triggered.connect(self.show_help)
         self.actionChangeUserData = QtWidgets.QAction(mainWindow)
         self.actionChangeUserData.setObjectName("actionChangeUserData")
         self.actionAdmin = QtWidgets.QAction(mainWindow)
@@ -494,7 +497,7 @@ class Ui_mainWindow(object):
         self.UserVar = "User: " + self.UserID
         self.labelUserID.setText(_translate("mainWindow", self.UserVar))
         self.pushButtonLogOut.setText(_translate("mainWindow", "Log out"))
-        self.pushButtonCancel.setText(_translate("mainWindow", "Cancel"))
+        self.pushButtonCancel.setText(_translate("mainWindow", "Refresh page"))
         self.menuOptions.setTitle(_translate("mainWindow", "Options"))
         self.actionHelp.setText(_translate("mainWindow", "Help"))
         self.actionChangeUserData.setText(_translate("mainWindow", "Change user data"))
@@ -573,13 +576,59 @@ class Ui_mainWindow(object):
         self.ui1.setupUi(Dialog, self.UserID)
         Dialog.show()
 
+    def refresh_page(self):
+        self.mainWindow.close()
+
+        mainWindow = QtWidgets.QMainWindow()
+        self.ui = Ui_mainWindow(self.UserID)
+        self.ui.setupUi(mainWindow)
+        mainWindow.show()
+
     def learn(self):
         try:
             lern_set = self.comboBoxLearnSet.currentText()
-            userDir = USERFILESDIR + "\\" + self.UserID + "\\u_sets"
-            file = passCreator.open_list_file(userDir , lern_set)
-            for f in file:
-                print(f)
+            learn_option = self.comboBoxLearnOptions.currentText()
+            if learn_option == "Option 1":
+                # kynuty w opcji (UserID, SetName)
+
+                import Learn1 as l
+                startWindow = QtWidgets.QDialog()
+                self.ui = l.Ui_LearnWindow()
+                self.ui.setupUi(startWindow,self.UserID, lern_set)
+                startWindow.show()
+
+            elif learn_option == "Option 2":
+                import Learn2 as l2
+                startWindow = QtWidgets.QDialog()
+                self.ui = l2.Ui_LearnWindow()
+                self.ui.setupUi(startWindow,self.UserID, lern_set)
+                startWindow.show()
+            else:
+                print("error")
+
+        except Exception as err:
+            print(err)
+
+    def test_it(self):
+        try:
+            set_to_test = self.comboBoxSetTest.currentText()
+            # test_level = self.comboBoxTestLevels.currentText()
+            #print(set_to_test, test_level)
+            import Test
+            startWindow = QtWidgets.QDialog()
+            self.ui = Test.Ui_TestWindow()
+            self.ui.setupUi(startWindow, self.UserID, set_to_test)
+            startWindow.show()
+        except Exception as err:
+            print("err: ", err)
+
+    def show_help(self):
+        try:
+            import Help
+            HelpWindow = QtWidgets.QMainWindow()
+            self.help_s = Help.Ui_MainWindow()
+            self.help_s.setupUi(HelpWindow)
+            HelpWindow.show()
         except Exception as err:
             print(err)
 
@@ -591,13 +640,14 @@ class Ui_mainWindow(object):
         self.NewUserMsg.setStandardButtons(QMessageBox.Ok)
         returnValue = self.NewUserMsg.exec()
 
-
+"""
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle(APPSTYLE)
     mainWindow = QtWidgets.QMainWindow()
-    ui = Ui_mainWindow("Admin")
+    ui = Ui_mainWindow("Olek99")
     ui.setupUi(mainWindow)
     mainWindow.show()
     sys.exit(app.exec_())
+"""

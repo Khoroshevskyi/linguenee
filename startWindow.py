@@ -139,6 +139,7 @@ class Ui_startWindow(object):
         self.creatorsLabel.setText(_translate("startWindow", "With love: Linguenee team <3"))
 
     def passwordWindowOpener(self):
+        # add possibility to change password
         print("you forgot your password")
 
 
@@ -191,12 +192,22 @@ class Ui_startWindow(object):
             error_in_app(err)
 
         if exists == True:
-            print("False")
+            #print("False")
             self.currentUser = userID
             self.userWindowOpener()
 
-            print("your login is: " + userID)
-            print("your password is: " + userPass)
+            #print("your login is: " + userID)
+            #print("your password is: " + userPass)
+        else:
+            self.message("Incerrect Data", "Login or password is incorrect")
+
+    def message(self, msg, msg_text):
+        self.NewUserMsg = QMessageBox()
+        self.NewUserMsg.setIcon(QMessageBox.Information)
+        self.NewUserMsg.setText(msg_text)
+        self.NewUserMsg.setWindowTitle(msg)
+        self.NewUserMsg.setStandardButtons(QMessageBox.Ok)
+        returnValue = self.NewUserMsg.exec()
 
 if __name__ == "__main__":
     try:

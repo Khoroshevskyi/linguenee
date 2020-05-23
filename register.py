@@ -5,6 +5,7 @@ import sys
 from dateutil.relativedelta import relativedelta
 import datetime
 from progData import *
+from shutil import copyfile
 
 class Ui_RegisterWindow(object):
 
@@ -147,6 +148,7 @@ class Ui_RegisterWindow(object):
         fontRulBut.setWeight(75)
         self.rulesButton.setFont(fontRulBut)
         self.rulesButton.setObjectName("rulesButton")
+        self.rulesButton.clicked.connect(self.show_rules)
         self.inputAreaGrid.addWidget(self.rulesButton, 8, 1, 1, 1)
 
         # end of inputAreaGrid
@@ -174,9 +176,11 @@ class Ui_RegisterWindow(object):
 
         self.menuInfo = QtWidgets.QMenu(self.menubar)
         self.menuInfo.setObjectName("menuInfo")
+        self.menuInfo.triggered.connect(self.show_help)
 
         self.menuSave = QtWidgets.QMenu(self.menubar)
         self.menuSave.setObjectName("menuSave")
+        self.menuSave.triggered.connect(self.saveNewUser)
         self.RegisterWindow.setMenuBar(self.menubar)
 
         self.statusbar = QtWidgets.QStatusBar(RegisterWindow)
@@ -188,8 +192,12 @@ class Ui_RegisterWindow(object):
         self.actionProgram = QtWidgets.QAction(RegisterWindow)
         self.actionProgram.setObjectName("actionProgram")
         self.actionDevelopers = QtWidgets.QAction(RegisterWindow)
+
+        self.actionDevelopers.triggered.connect(self.show_help)
+
         self.actionDevelopers.setObjectName("actionDevelopers")
         self.actionSpecification = QtWidgets.QAction(RegisterWindow)
+        self.actionSpecification.triggered.connect(self.show_help)
         self.actionSpecification.setObjectName("actionSpecification")
         self.menuInfo.addAction(self.actionProgram)
         self.menuInfo.addAction(self.actionDevelopers)
@@ -275,10 +283,14 @@ class Ui_RegisterWindow(object):
                     passCreator.create_user_file(userInfo["login"])
                     passCreator.directoryFind(SETSDIR)
 
-                    # printing info
-                    allUserData = passCreator.open_list_file(HOMEDIR,USERINFOFILE)
-                    for k in allUserData:
-                        print(k)
+                    copyfile(".\\Dictionary\\Body", passCreator.directoryFind(SETSDIR)+"\\Body")
+                    copyfile(".\\Dictionary\\Fruits", passCreator.directoryFind(SETSDIR)+"\\Fruits")
+
+                    ## printing info
+                    #allUserData = passCreator.open_list_file(HOMEDIR,USERINFOFILE)
+                    #for k in allUserData:
+                    #    print(k)
+
 
 
             except Exception as err:
@@ -360,7 +372,27 @@ class Ui_RegisterWindow(object):
         returnValue = self.NewUserMsg.exec()
         self.openStartWindow()
 
+    def show_rules(self):
+        try:
+            import RulesShow
+            Rules = QtWidgets.QMainWindow()
+            self.ui1 = RulesShow.Ui_MainWindow()
+            self.ui1.setupUi(Rules)
+            Rules.show()
+        except Exception as err:
+            print(err)
 
+    def show_help(self):
+        try:
+            import Help
+            HelpWindow = QtWidgets.QMainWindow()
+            self.help_s = Help.Ui_MainWindow()
+            self.help_s.setupUi(HelpWindow)
+            HelpWindow.show()
+        except Exception as err:
+            print(err)
+
+"""
 if __name__ == "__main__":
 
     app = QtWidgets.QApplication(sys.argv)
@@ -370,3 +402,4 @@ if __name__ == "__main__":
     ui.setupUi(RegisterWindow)
     RegisterWindow.show()
     sys.exit(app.exec_())
+"""

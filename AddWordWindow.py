@@ -206,6 +206,7 @@ class Ui_AddWords(object):
             print(words_set)
             for user in users:
                 passCreator.add_words_user_use(user, self.setName, words_set)
+                passCreator.add_words_user_test(user, self.setName, words_set)
                 print(user)
                 print(self.setName)
                 print(words_set)
@@ -222,13 +223,14 @@ class Ui_AddWords(object):
         self.NewUserMsg.setStandardButtons(QMessageBox.Ok)
         returnValue = self.NewUserMsg.exec()
 
-
+"""
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle(APPSTYLE)
     AddWords = QtWidgets.QDialog()
     ui = Ui_AddWords()
-    ui.setupUi(AddWords, "Here is my set Name")
+    ui.setupUi(AddWords, "Fruits")
     AddWords.show()
     sys.exit(app.exec_())
+"""
