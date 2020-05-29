@@ -1,5 +1,5 @@
 """
-Engine of the program. All writing to database and reading info from it
+Engine of the program. All information that is writing to database and reading info from it
 is using functions form this file (from passCreator)
 """
 import hashlib, binascii, os
@@ -202,6 +202,7 @@ def add_array_of_users(login, set_name):
     pickle.dump(data, pickle_out)
     pickle_out.close()
 
+# checking if this set already exsists
 def set_exsists(set):
     file_path = SETSDIR + "\\" + set + ''
     if (os.path.exists(file_path)):
@@ -209,12 +210,14 @@ def set_exsists(set):
     else:
         return(False)
 
+# open list of users who is using this set
 def openUserSetList(login):
     userDir = USERFILESDIR + "\\" + login
     file_name = userDir +"\\"+ USERSETSFILE
     sets = open_list_file(userDir, USERSETSFILE)
     return(sets)
 
+# open user sets
 def open_set_in_use(login):
     dir = USERFILESDIR + "\\"+ login +"\\" + "u_sets"
     sets_in_use = []
@@ -223,6 +226,7 @@ def open_set_in_use(login):
             sets_in_use.append(filename)
     return(sets_in_use)
 
+# all sets avaliable in the program
 def openSetsAvailable():
     dir = SETSDIR
     sets_in_use = []
@@ -232,10 +236,39 @@ def openSetsAvailable():
                 sets_in_use.append(filename)
     return(sets_in_use)
 
-
+# saving modified set
 def save_set(set, set_name):
     # set = [{"word": "word", "meaning": "meaning"},{},{}]
     dir = SETSDIR+"\\"+ set_name
     pickle_out = open(dir, "wb")
     pickle.dump(set, pickle_out)
     pickle_out.close()
+
+# saving sets to users directories
+def seve_test_score(UserID, setName, set_doc):
+    userDir = USERFILESDIR + "\\" + UserID + "\\u_tests"
+    file_dir_name = userDir + "\\" + setName
+
+    pickle_out = open(file_dir_name, "wb")
+    pickle.dump(set_doc, pickle_out)
+    pickle_out.close()
+
+# making percent in userWindow
+def add_percents(UserID):
+    plus = 0
+    minus = 0
+    user_sets = open_set_in_use(UserID)
+
+    for set in user_sets:
+        userDir = USERFILESDIR + "\\" + UserID + "\\u_tests"
+        file_dir_name = userDir + "\\" + set
+        words_in_set = open_list_file(userDir, set)
+        for word in words_in_set:
+            if word["passed"] == True:
+                plus += 1
+            else:
+                minus += 1
+    if (plus+minus == 0):
+        plus = 1
+    percent = plus*100/(plus+minus)
+    return(percent)

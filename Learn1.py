@@ -52,7 +52,7 @@ class Ui_LearnWindow(object):
 
         self.comboBox_word3 = QtWidgets.QComboBox(self.LearnWindow)
         words3 = ["1","2", "3"]
-        self.comboBox_word3.addItems(words3 )
+        self.comboBox_word3.addItems(words3)
         self.comboBox_word3.setFont(font)
         self.gridLayout.addWidget(self.comboBox_word3, 4, 1, 1, 1)
 
@@ -116,35 +116,29 @@ class Ui_LearnWindow(object):
         list_len = 0
         while list_len < (len(self.file)):
 
-            text = "Word to translate:  " + self.file[list_len]["meaning"]
-            text += "\n You choose:  "
-            text += self.comboBox_word1.currentText()
-            text += "\n Correct answer:  "
-            text += self.file[list_len]["word"]
-
             if self.file[list_len]== self.word_1:
                 if self.comboBox_word1.currentText() == self.file[list_len]["word"]:
                     self.file[list_len]["score"] += add_to_score
-                    self.message_correct("Correct!", text)
+                    self.message_correct("Correct!", self.file[list_len]["meaning"], self.comboBox_word1.currentText(), self.file[list_len]["word"])
                 else:
                     self.file[list_len]["score"] += -5
-                    self.message_correct("InCorrect:(",text)
+                    self.message_correct("InCorrect!:(", self.file[list_len]["meaning"], self.comboBox_word1.currentText(), self.file[list_len]["word"])
 
             elif self.file[list_len] == self.word_2:
                 if self.comboBox_word2.currentText() == self.file[list_len]["word"]:
                     self.file[list_len]["score"] += add_to_score
-                    self.message_correct("Correct!",text)
+                    self.message_correct("Correct!", self.file[list_len]["meaning"], self.comboBox_word2.currentText(), self.file[list_len]["word"])
                 else:
                     self.file[list_len]["score"] += -5
-                    self.message_correct("InCorrect:(",text)
+                    self.message_correct("InCorrect!:(", self.file[list_len]["meaning"], self.comboBox_word2.currentText(), self.file[list_len]["word"])
 
             elif self.file[list_len] == self.word_3:
                 if self.comboBox_word3.currentText() == self.file[list_len]["word"]:
                     self.file[list_len]["score"] += add_to_score
-                    self.message_correct("Correct!",text)
+                    self.message_correct("Correct!:)", self.file[list_len]["meaning"], self.comboBox_word3.currentText(), self.file[list_len]["word"])
                 else:
                     self.file[list_len]["score"] += -5
-                    self.message_correct("InCorrect:(",text)
+                    self.message_correct("InCorrect!:(", self.file[list_len]["meaning"], self.comboBox_word3.currentText(), self.file[list_len]["word"])
             else:
                 pass
             list_len += 1
@@ -210,10 +204,6 @@ class Ui_LearnWindow(object):
         userDir = USERFILESDIR + "\\" + self.UserID + "\\u_sets"
         self.file = passCreator.open_list_file(userDir , self.SetName)
 
-    def write_set(self):
-        userDir = USERFILESDIR + "\\" + self.UserID + "\\u_sets"
-        pass
-
     def finished(self):
         for f in self.file:
             if f["score"] < 100:
@@ -234,10 +224,12 @@ class Ui_LearnWindow(object):
         self.NewUserMsg.setStandardButtons(QMessageBox.Ok)
         returnValue = self.NewUserMsg.exec()
 
-    def message_correct(self, msg, msg_text):
-        print(msg)
-        print(msg_text)
-        print("\n")
+    def message_correct(self, state, word_to_trans, answer, correct_answer):
+        text = state
+        text = text + "Word to translate:  " + word_to_trans
+        text = text + "\n You have chosen:  " + answer
+        text = text + "\n Correct answer:  " + correct_answer
+        print(text, "\n")
 
 """
 if __name__ == "__main__":

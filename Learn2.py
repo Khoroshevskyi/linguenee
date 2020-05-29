@@ -79,6 +79,8 @@ class Ui_LearnWindow(object):
         self.retranslateUi(self.LearnWindow1)
         QtCore.QMetaObject.connectSlotsByName(self.LearnWindow1)
 
+        self.set_words()
+
     def retranslateUi(self, LearnWindow1):
         _translate = QtCore.QCoreApplication.translate
         self.LearnWindow1.setWindowTitle(_translate("LearnWindow1", "Dialog"))
@@ -93,24 +95,62 @@ class Ui_LearnWindow(object):
 
     def check_words(self):
         try:
-            print(self.UserID, self.SetName)
-            print(self.learned())
+            add_to_score = 25
+            list_len = 0
+            while list_len < (len(self.file)):
+
+                if self.file[list_len]== self.word_1:
+                    if self.lineEdit_word1.text().lower() == self.file[list_len]["word"].lower():
+                        self.file[list_len]["score"] += add_to_score
+                        self.message_correct("Correct!  \n", self.file[list_len]["meaning"], self.lineEdit_word1.text(), self.file[list_len]["word"])
+                    else:
+                        self.file[list_len]["score"] += - 5
+                        self.message_correct("Incorrect!:((  \n", self.file[list_len]["meaning"], self.lineEdit_word1.text(), self.file[list_len]["word"])
+
+                elif self.file[list_len] == self.word_2:
+                    if self.lineEdit_word_2.text().lower() == self.file[list_len]["word"].lower():
+                        self.file[list_len]["score"] += add_to_score
+                        self.message_correct("Correct!\n", self.file[list_len]["meaning"], self.lineEdit_word_2.text(), self.file[list_len]["word"])
+                    else:
+                        self.file[list_len]["score"] += -5
+                        self.message_correct("Incorrect!:(( \n ", self.file[list_len]["meaning"], self.lineEdit_word_2.text(), self.file[list_len]["word"])
+
+                elif self.file[list_len] == self.word_3:
+                    if self.lineEdit_word_3.text().lower() == self.file[list_len]["word"].lower():
+                        self.file[list_len]["score"] += add_to_score
+                        self.message_correct("Correct!\n", self.file[list_len]["meaning"], self.lineEdit_word_3.text(), self.file[list_len]["word"])
+                    else:
+                        self.file[list_len]["score"] += -5
+                        self.message_correct("InCorrect!:(((\n", self.file[list_len]["meaning"], self.lineEdit_word_3.text(), self.file[list_len]["word"])
+                else:
+                    pass
+                list_len += 1
+            passCreator.edit_user_learing_set(self.UserID, self.SetName, self.file)
+
             self.set_words()
 
         except Exception as err:
             print(err)
+    def message_correct(self, msg, msg_text):
+        print(msg)
+        print(msg_text)
+        print("\n")
 
     def set_words(self):
-        word_1, word_2, word_3 = self.generate_words()
+        self.generate_words()
 
         # Word 1
-        self.label_word.setText(word_1["word"])
+        self.label_word.setText(self.word_1["meaning"])
+        self.lineEdit_word1.setText("")
 
         # Word 2
-        self.label_word2.setText(word_2["word"])
+        self.label_word2.setText(self.word_2["meaning"])
+        self.lineEdit_word_2.setText("")
 
         # Word 3
-        self.label_word3.setText(word_3["word"])
+        self.label_word3.setText(self.word_3["meaning"])
+        self.lineEdit_word_3.setText("")
+
 
     def generate_words(self):
         word_1 = random.choice(self.file)
@@ -119,7 +159,9 @@ class Ui_LearnWindow(object):
         if len(self.file) > 3:
             if word_1 == word_2 or word_1 == word_3 or word_2 == word_3:
                 word_1, word_2, word_3 = self.generate_words()
-        return word_1, word_2, word_3
+        self.word_1 = word_1
+        self.word_2 = word_2
+        self.word_3 = word_3
 
     def show_score(self):
         for f in self.file:
@@ -129,16 +171,18 @@ class Ui_LearnWindow(object):
         userDir = USERFILESDIR + "\\" + self.UserID + "\\u_sets"
         self.file = passCreator.open_list_file(userDir , self.SetName)
 
-    def write_set(self):
-        userDir = USERFILESDIR + "\\" + self.UserID + "\\u_sets"
-        pass
-
     def learned(self):
         for f in self.file:
             if f["score"] < 100:
                 return(False)
         return(True)
 
+    def message_correct(self, state, word_to_trans, answer, correct_answer):
+        text = state
+        text = text + "Word to translate:  " + word_to_trans
+        text = text + "\n You have chosen:  " + answer
+        text = text + "\n Correct answer:  " + correct_answer
+        print(text, "\n")
 """
 if __name__ == "__main__":
     import sys

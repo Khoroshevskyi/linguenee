@@ -98,25 +98,30 @@ class Ui_mainWindow(object):
 
         self.labelSetQuantity2 = QtWidgets.QLabel(self.achivements)
         self.labelSetQuantity2.setAlignment(QtCore.Qt.AlignCenter)
-        self.labelSetQuantity2.setText("1")
+
+        sets_avaliable = str(len(passCreator.openSetsAvailable()))
+        self.labelSetQuantity2.setText(sets_avaliable)
         self.formLayout_2.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.labelSetQuantity2)
 
         self.labelSetsFinished1 = QtWidgets.QLabel(self.achivements)
         self.labelSetsFinished1.setObjectName("labelSetsFinished1")
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.labelSetsFinished1)
 
+        nr_sets_user_created = str(len(passCreator.openUserSetList(self.UserID)))
         self.labelSetsFinished2 = QtWidgets.QLabel(self.achivements)
         self.labelSetsFinished2.setAlignment(QtCore.Qt.AlignCenter)
-        self.labelSetsFinished2.setText("1")
+        self.labelSetsFinished2.setText(nr_sets_user_created )
         self.formLayout_2.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.labelSetsFinished2)
 
         self.labelSetsInProgress1 = QtWidgets.QLabel(self.achivements)
         self.labelSetsInProgress1.setObjectName("labelSetsInProgress1")
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.LabelRole, self.labelSetsInProgress1)
 
+
         self.labelSetInProgress2 = QtWidgets.QLabel(self.achivements)
         self.labelSetInProgress2.setAlignment(QtCore.Qt.AlignCenter)
-        self.labelSetInProgress2.setText("1")
+        nr_set_in_use = str(len(passCreator.open_set_in_use(self.UserID)))
+        self.labelSetInProgress2.setText(nr_set_in_use)
         self.formLayout_2.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.labelSetInProgress2)
 
         self.labelTests = QtWidgets.QLabel(self.achivements)
@@ -136,7 +141,8 @@ class Ui_mainWindow(object):
         # progressBar
         self.progressBar = QtWidgets.QProgressBar(self.achivements)
         self.progressBar.setInputMethodHints(QtCore.Qt.ImhNone)
-        self.progressBar.setProperty("value", 57)
+        percent = passCreator.add_percents(self.UserID)
+        self.progressBar.setProperty("value", percent)
         self.progressBar.setTextVisible(True)
         self.progressBar.setOrientation(QtCore.Qt.Horizontal)
         self.progressBar.setInvertedAppearance(False)
@@ -398,7 +404,7 @@ class Ui_mainWindow(object):
         # combobox test levels
         self.comboBoxTestLevels = QtWidgets.QComboBox(self.scrollAreaWidgetContents_3)
         self.comboBoxTestLevels.setObjectName("comboBoxTestLevels")
-        test_levels = ["Easy", "Middle", "Hard"]
+        test_levels = ["Middle"]
         self.comboBoxTestLevels.addItems(test_levels)
         self.formLayout_6.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.comboBoxTestLevels)
 
@@ -467,10 +473,13 @@ class Ui_mainWindow(object):
         self.labelModifySet.setText(_translate("mainWindow", "Modify Set:"))
         self.pushButtonModify.setText(_translate("mainWindow", "Modify"))
         self.ButtonAddSetToYourList.setText(_translate("mainWindow", "Add exsisting set to your list"))
-        self.lebelSetQuantity1.setText(_translate("mainWindow", "Set quantity:"))
 
-        self.labelSetsFinished1.setText(_translate("mainWindow", "Sets finished:"))
-        self.labelSetsInProgress1.setText(_translate("mainWindow", "Sets in progress:"))
+
+        self.lebelSetQuantity1.setText(_translate("mainWindow", "# Set avaliable:"))
+        self.labelSetsFinished1.setText(_translate("mainWindow", "# Sets you created:"))
+        self.labelSetsInProgress1.setText(_translate("mainWindow", "# Sets in use:"))
+
+
         self.labelTests.setText(_translate("mainWindow", "Tests:"))
 
         self.progressBar.setFormat(_translate("mainWindow", "%p%"))
@@ -640,14 +649,13 @@ class Ui_mainWindow(object):
         self.NewUserMsg.setStandardButtons(QMessageBox.Ok)
         returnValue = self.NewUserMsg.exec()
 
-"""
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     app.setStyle(APPSTYLE)
     mainWindow = QtWidgets.QMainWindow()
-    ui = Ui_mainWindow("Olek99")
+    ui = Ui_mainWindow("Admin89")
     ui.setupUi(mainWindow)
     mainWindow.show()
     sys.exit(app.exec_())
-"""

@@ -16,7 +16,7 @@ class Ui_startWindow(object):
         self.startWindow.resize(600, 360)
 
         self.startWindow.setMinimumSize(QtCore.QSize(600, 360))
-        self.startWindow.setMaximumSize(QtCore.QSize(600, 360))
+        #self.startWindow.setMaximumSize(QtCore.QSize(600, 360))
 
         # name = lenguenee
         self.nameLabel = QtWidgets.QLabel(startWindow)
